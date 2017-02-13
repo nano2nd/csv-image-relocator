@@ -93,4 +93,7 @@ class CsvParser:
         src_path = search_dir + '/' + found_file_name
         dest_path = dest_folder_path + '/' + found_file_name
 
-        copyfile(src_path, dest_path)
+        try:
+            copyfile(src_path, dest_path)
+        except Exception:
+            raise ValueError('Unable to copy image "{}"'.format(src_path))
