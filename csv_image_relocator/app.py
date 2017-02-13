@@ -4,17 +4,25 @@ from csv_image_relocator.relocator_tools.csv_parser import CsvParser
 
 
 def start_gui():
+    default_export_directory = 'N:/IT Services/Private/Kidd Test Files'
 
     def button_go_callback():
-        filename = entry.get()
+        filename = csv_entry.get()
+        export_directory = export_dir_entry.get()
+
         if filename.rsplit(".")[-1] != "csv":
             status_text.set("Filename must end in `.csv'")
             message.configure(fg="red")
+
+        elif not bool(export_directory):
+            status_text.set("You must specify an export location")
+            message.configure(fg="red")
+
         else:
             try:
                 message.configure(fg="black")
 
-                csv_parser = CsvParser(filename, status_text)
+                csv_parser = CsvParser(filename, status_text, export_directory)
                 csv_parser.copy_all_images()
 
                 status_text.set('All done!')
@@ -26,8 +34,8 @@ def start_gui():
 
     def button_browse_callback():
         filename = filedialog.askopenfilename()
-        entry.delete(0, tk.END)
-        entry.insert(0, filename)
+        csv_entry.delete(0, tk.END)
+        csv_entry.insert(0, filename)
 
     root = tk.Tk()
     root.wm_title('CSV Image Relocator')
@@ -38,11 +46,18 @@ def start_gui():
     status_text.set("Press Browse button or enter CSV filename, "
                     "then press the Go button")
 
-    label = tk.Label(root, text="CSV file: ")
-    label.pack()
+    csv_label = tk.Label(root, text="CSV file: ")
+    csv_label.pack()
 
-    entry = tk.Entry(root, width=50)
-    entry.pack()
+    csv_entry = tk.Entry(root, width=50)
+    csv_entry.pack()
+
+    export_dir_label = tk.Label(root, text="Export directory: ")
+    export_dir_label.pack()
+
+    export_dir_entry = tk.Entry(root, width=50)
+    export_dir_entry.insert(0, default_export_directory)
+    export_dir_entry.pack()
 
     separator = tk.Frame(root, height=2, bd=1, relief=tk.SUNKEN)
     separator.pack(fill=tk.X, padx=5, pady=5)

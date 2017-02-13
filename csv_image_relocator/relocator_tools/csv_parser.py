@@ -8,7 +8,7 @@ from csv_image_relocator.relocator_tools import tools
 
 class CsvParser:
 
-    def __init__(self, input_file, status_text):
+    def __init__(self, input_file, status_text, export_directory):
         self.status_text = status_text
         self.input_file = input_file
 
@@ -19,7 +19,7 @@ class CsvParser:
         self.file_count = self.count_files()
         self.current_file_count = 0
 
-        self.destination = 'C:/'
+        self.destination = export_directory
 
     def copy_all_images(self):
         for data in self.image_data:
@@ -83,6 +83,9 @@ class CsvParser:
         except FileNotFoundError:
             raise ValueError("File containing {} could not be found in {}"
                              .format(search_term, search_dir))
+
+        # Create destination if it does not exist
+        os.makedirs(self.destination, exist_ok=True)
 
         dest_folder_path = self.destination + '/' + dest_folder
         os.makedirs(dest_folder_path, exist_ok=True)
