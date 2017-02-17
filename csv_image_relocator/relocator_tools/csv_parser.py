@@ -11,7 +11,7 @@ class CsvParser:
     def __init__(self, input_file, status_text, export_directory):
         self.status_text = status_text
         self.input_file = input_file
-        self.not_found_images = [];
+        self.not_found_images = []
 
         self.image_data = CsvParser._read_csv(input_file)
         if self.image_data is None or len(self.image_data) == 0:
@@ -42,8 +42,8 @@ class CsvParser:
 
                 return image_data
 
-        except ValueError:
-            raise
+        except:
+            pass
 
     def count_files(self):
         return sum(data.image_file_count() for data in self.image_data)
