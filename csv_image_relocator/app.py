@@ -4,7 +4,7 @@ from csv_image_relocator.relocator_tools.csv_parser import CsvParser
 
 
 def start_gui():
-    default_export_directory = 'N:/IT Services/Private/Kidd Test Files'
+    default_export_directory = 'N:\Research\Shared\Belt Assurance Study\Cabin Images for Coding'
 
     def button_go_callback():
         filename = csv_entry.get()

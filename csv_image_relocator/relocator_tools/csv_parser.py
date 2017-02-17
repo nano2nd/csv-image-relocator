@@ -95,5 +95,5 @@ class CsvParser:
 
         try:
             copyfile(src_path, dest_path)
-        except Exception:
+        except:
             raise ValueError('Unable to copy image "{}"'.format(src_path))
