@@ -25,6 +25,10 @@ def start_gui():
                 csv_parser = CsvParser(filename, status_text, export_directory)
                 csv_parser.copy_all_images()
 
+                if csv_parser.not_found_images:
+                    with open(export_directory + '/images_not_found.txt', mode='wt', encoding='utf-8') as files_not_found:
+                        files_not_found.write('\n'.join(csv_parser.not_found_images))
+
                 status_text.set('All done!')
                 message.configure(fg="green")
 

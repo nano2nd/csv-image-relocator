@@ -11,6 +11,7 @@ class CsvParser:
     def __init__(self, input_file, status_text, export_directory):
         self.status_text = status_text
         self.input_file = input_file
+        self.not_found_images = [];
 
         self.image_data = CsvParser._read_csv(input_file)
         if self.image_data is None or len(self.image_data) == 0:
@@ -52,6 +53,7 @@ class CsvParser:
                                                             self.file_count))
 
     def _copy_images(self, data_row):
+
         dest_image_name = str.join('', [data_row.subject,
                                         '-', data_row.week_condition,
                                         '-', data_row.trip_num])
@@ -81,8 +83,9 @@ class CsvParser:
         try:
             found_file_name = tools.search_file(search_term, search_dir)
         except FileNotFoundError:
-            raise ValueError("File containing {} could not be found in {}"
-                             .format(search_term, search_dir))
+            # raise ValueError("File containing {} could not be found in {}".format(search_term, search_dir))
+            self.not_found_images.append("{}/{}".format(search_dir, search_term))
+            return
 
         # Create destination if it does not exist
         os.makedirs(self.destination, exist_ok=True)
